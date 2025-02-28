@@ -21,17 +21,32 @@
 
             <div>
                 <label class="block text-gray-600 font-semibold">Product Name:</label>
-                <input type="text" name="name" required class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <input type="text" name="name"  class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <x-form-error name="name" />
             </div>
 
             <div>
                 <label class="block text-gray-600 font-semibold">Quantity:</label>
                 <input type="number" name="quantity" required class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <x-form-error name="quantity" />
             </div>
+
 
             <div>
                 <label class="block text-gray-600 font-semibold">Price:</label>
                 <input type="text" name="price" required class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <x-form-error name="price" />
+            </div>
+
+            <div>
+                <label class="block text-gray-600 font-semibold">Category:</label>
+                <select name="category" id="" class="w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 py-2">
+                    <option value="">Select Category</option>
+                    <option value="men">Men</option>
+                    <option value="women">Women</option>
+                    <option value="kids">Kids</option>
+                </select>
+                <x-form-error name="category" />
             </div>
 
             <div>
@@ -42,6 +57,7 @@
             <div>
                 <label class="block text-gray-600 font-semibold">Product Image:</label>
                 <input type="file" name="image" class="w-full p-2 border border-gray-300 rounded-lg">
+                <x-form-error name="image" />
             </div>
 
             <button type="submit" class="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition duration-300">Add Product</button>

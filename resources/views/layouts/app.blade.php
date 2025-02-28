@@ -9,7 +9,7 @@
 <body class="flex flex-col">
     @include('partials.header')
     
-    <main class="min-h-[510px] container mx-auto p-6 flex items-center flex-col">
+    <main class="min-h-[610px] container mx-auto p-6 flex items-center flex-col">
         @yield('content')
     </main>
     

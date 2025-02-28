@@ -1,6 +1,13 @@
 @extends('layouts.app')
 @section('title', $product->name)
 @section('content')
+    <div class="self-start border-b border-[#cfd1d0] w-full pb-5">
+        <x-nav-link href="#">Men</x-nav-link>
+        <x-nav-link href="#">Men</x-nav-link>
+        <x-nav-link href="#">Men</x-nav-link>
+        <x-nav-link href="#">Men</x-nav-link>
+        <x-nav-link href="#">Men</x-nav-link>
+    </div>
     <div class="flex mt-10">
         <div class="w-[70rem] flex flex-col gap-5">
             <img src="{{ asset('storage/' . $product->image) }}" alt="" class="w-full">
