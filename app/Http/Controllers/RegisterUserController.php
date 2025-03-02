@@ -25,6 +25,11 @@ class RegisterUserController extends Controller
 
         Auth::login($user);
 
-        return redirect('/')->with('success', 'Successful registered!');
+        // Redirect based on user role
+        if($user->role === 'admin') {
+            return redirect('/admin')->with('success', 'Registration successful! Welcome to admin dashboard.');
+        }
+
+        return redirect('/')->with('success', 'Registration successful!');
     }
 }

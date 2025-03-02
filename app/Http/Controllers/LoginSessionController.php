@@ -10,8 +10,9 @@ use Illuminate\Validation\ValidationException;
 class LoginSessionController extends Controller
 {
     public function create(){
-        return view('auth.login');  
+        return view('auth.login');
     }
+
 
     public function store(Request $request){
         $loginValidateData = $request->validate([
@@ -27,8 +28,11 @@ class LoginSessionController extends Controller
 
         request()->session()->regenerate();
         
-
-       return redirect('/');
+        if(Auth::user()->role === 'admin'){
+            return redirect('/admin')->with('success', 'Welcome to admin dashboard!');
+        }
+    
+        return redirect('/')->with('success', 'Welcome back!');
 
     }
 
