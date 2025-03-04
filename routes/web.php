@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RegisterUserController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\OrderController;
 
 // Guest routes (only accessible when not logged in)
 Route::middleware('guest')->group(function () {
@@ -28,6 +31,64 @@ Route::middleware('auth')->group(function () {
     Route::get('/products/{id}', [ProductController::class, 'find'])->name('products.find');
     Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
     Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
+    
+    // Cart Routes with customer-only restriction
+    Route::post('/cart/add', [App\Http\Controllers\CartController::class, 'add'])
+        ->name('cart.add')
+        ->middleware('web')
+        ->middleware(\App\Http\Middleware\CustomerOnly::class);
+        
+    Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])
+        ->name('cart.index')
+        ->middleware('web')
+        ->middleware(\App\Http\Middleware\CustomerOnly::class);
+        
+    Route::delete('/cart/multiple', [App\Http\Controllers\CartController::class, 'removeMultiple'])
+        ->name('cart.removeMultiple')
+        ->middleware('web')
+        ->middleware(\App\Http\Middleware\CustomerOnly::class);
+        
+    Route::delete('/cart/{id}', [App\Http\Controllers\CartController::class, 'remove'])
+        ->name('cart.remove')
+        ->middleware('web')
+        ->middleware(\App\Http\Middleware\CustomerOnly::class);
+        
+    Route::patch('/cart/{id}', [App\Http\Controllers\CartController::class, 'update'])
+        ->name('cart.update')
+        ->middleware('web')
+        ->middleware(\App\Http\Middleware\CustomerOnly::class);
+    
+    // Checkout Routes with customer-only restriction
+    Route::post('/checkout/direct', [App\Http\Controllers\CheckoutController::class, 'direct'])
+        ->name('checkout.direct')
+        ->middleware('web')
+        ->middleware(\App\Http\Middleware\CustomerOnly::class);
+        
+    Route::post('/checkout/quick-purchase', [App\Http\Controllers\CheckoutController::class, 'completeQuickPurchase'])
+        ->name('checkout.quick-purchase')
+        ->middleware('web')
+        ->middleware(\App\Http\Middleware\CustomerOnly::class);
+        
+    Route::get('/checkout', [App\Http\Controllers\CheckoutController::class, 'index'])
+        ->name('checkout.index')
+        ->middleware('web')
+        ->middleware(\App\Http\Middleware\CustomerOnly::class);
+        
+    Route::post('/checkout/process', [App\Http\Controllers\CheckoutController::class, 'process'])
+        ->name('checkout.process')
+        ->middleware('web')
+        ->middleware(\App\Http\Middleware\CustomerOnly::class);
+    
+    // Orders Routes with customer-only restriction
+    Route::get('/orders', [App\Http\Controllers\OrderController::class, 'index'])
+        ->name('orders.index')
+        ->middleware('web')
+        ->middleware(\App\Http\Middleware\CustomerOnly::class);
+        
+    Route::get('/orders/{order}', [App\Http\Controllers\OrderController::class, 'show'])
+        ->name('orders.show')
+        ->middleware('web')
+        ->middleware(\App\Http\Middleware\CustomerOnly::class);
     
     // Logout route
     Route::get('/logout', [LoginSessionController::class, 'destroy'])->name('logout');

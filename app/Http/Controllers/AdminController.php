@@ -33,9 +33,9 @@ class AdminController extends Controller
         }
         
         // You can uncomment this when you have role checking in place
-        // if (Auth::user()->role !== 'admin') {
-        //     return redirect('/')->with('error', 'Unauthorized access');
-        // }
+        if (Auth::user()->role !== 'admin') {
+            return redirect('/')->with('error', 'Unauthorized access');
+        }
         
         return null;
     }
@@ -174,10 +174,10 @@ class AdminController extends Controller
         if ($redirectResponse) {
             return $redirectResponse;
         }
-        
+
         // Implement this when Order model is available
-        // $orders = Order::with('user')->orderBy('created_at', 'desc')->paginate(10);
-        return view('admin.orders.index'); // , compact('orders')
+        $orders = Order::with('user')->orderBy('created_at', 'desc')->paginate(10);
+        return view('admin.orders.index', compact('orders')); // , compact('orders')
     }
 
     /**

@@ -10,16 +10,21 @@ class OrderItem extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'order_id',
         'product_id',
-        'quantity',
+        'product_name',
         'price',
-        'total',
+        'quantity'
     ];
 
     /**
-     * Get the order that owns the order item.
+     * Get the order that owns the item.
      */
     public function order(): BelongsTo
     {
@@ -27,7 +32,7 @@ class OrderItem extends Model
     }
 
     /**
-     * Get the product that owns the order item.
+     * Get the product that the item represents.
      */
     public function product(): BelongsTo
     {

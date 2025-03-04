@@ -110,8 +110,8 @@
                                         <i class="fas fa-user text-xs"></i>
                                     </div>
                                     <div class="ml-3">
-                                        <div class="text-sm font-medium text-gray-900">{{ $order->user->name ?? 'John Doe' }}</div>
-                                        <div class="text-xs text-gray-500">{{ $order->user->email ?? 'john.doe@example.com' }}</div>
+                                        <div class="text-sm font-medium text-gray-900">{{ $order->user->fullname }}</div>
+                                        <div class="text-xs text-gray-500">{{ $order->user->email }}</div>
                                     </div>
                                 </div>
                             </td>
@@ -119,7 +119,7 @@
                                 {{ $order->created_at ? $order->created_at->format('M d, Y • h:i A') : 'Nov 15, 2023 • 10:30 AM' }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-900">₱{{ number_format($order->total ?? 4520, 2) }}</div>
+                                <div class="text-sm font-medium text-gray-900">₱{{ number_format($order->total_amount, 2) }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @php
@@ -161,151 +161,155 @@
                         </tr>
                         @endforeach
                     @else
-                        <!-- Demo orders for preview -->
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <input type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div>
-                                    <div class="text-sm font-medium text-gray-900">#12345</div>
-                                    <div class="text-xs text-gray-500">3 items</div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="h-8 w-8 flex-shrink-0 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600">
-                                        <i class="fas fa-user text-xs"></i>
+                        @foreach ($orders as $order)
+                            
+                        
+                            <!-- Demo orders for preview -->
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <input type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
                                     </div>
-                                    <div class="ml-3">
-                                        <div class="text-sm font-medium text-gray-900">John Doe</div>
-                                        <div class="text-xs text-gray-500">john.doe@example.com</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-900">{{ $order->id }}</div>
+                                        <div class="text-xs text-gray-500">{{ $order->items_count }} items</div>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                Nov 15, 2023 • 10:30 AM
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-900">₱4,520.00</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                    Completed
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <div class="flex space-x-2">
-                                    <a href="/admin/orders/12345" class="text-blue-600 hover:text-blue-900" title="View">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                    <a href="/admin/orders/12345/edit" class="text-indigo-600 hover:text-indigo-900" title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <button class="text-amber-600 hover:text-amber-900" title="Print Invoice">
-                                        <i class="fas fa-print"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <input type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div>
-                                    <div class="text-sm font-medium text-gray-900">#12344</div>
-                                    <div class="text-xs text-gray-500">1 item</div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="h-8 w-8 flex-shrink-0 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600">
-                                        <i class="fas fa-user text-xs"></i>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="h-8 w-8 flex-shrink-0 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600">
+                                            <i class="fas fa-user text-xs"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <div class="text-sm font-medium text-gray-900">{{ $order->user->fullname }}</div>
+                                            <div class="text-xs text-gray-500">{{ $order->user->email }}</div>
+                                        </div>
                                     </div>
-                                    <div class="ml-3">
-                                        <div class="text-sm font-medium text-gray-900">Maria Garcia</div>
-                                        <div class="text-xs text-gray-500">maria.garcia@example.com</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    {{ $order->created_at ? $order->created_at->format('M d, Y • h:i A') : 'N/A ' }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm font-medium text-gray-900">{{ $order->total_amount }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                        {{ $order->payment_status }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <div class="flex space-x-2">
+                                        <a href="/admin/orders/12345" class="text-blue-600 hover:text-blue-900" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="/admin/orders/12345/edit" class="text-indigo-600 hover:text-indigo-900" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <button class="text-amber-600 hover:text-amber-900" title="Print Invoice">
+                                            <i class="fas fa-print"></i>
+                                        </button>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                Nov 15, 2023 • 09:15 AM
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-900">₱1,250.00</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                                    Processing
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <div class="flex space-x-2">
-                                    <a href="/admin/orders/12344" class="text-blue-600 hover:text-blue-900" title="View">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                    <a href="/admin/orders/12344/edit" class="text-indigo-600 hover:text-indigo-900" title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <button class="text-amber-600 hover:text-amber-900" title="Print Invoice">
-                                        <i class="fas fa-print"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <input type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div>
-                                    <div class="text-sm font-medium text-gray-900">#12343</div>
-                                    <div class="text-xs text-gray-500">2 items</div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="h-8 w-8 flex-shrink-0 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600">
-                                        <i class="fas fa-user text-xs"></i>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <input type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
                                     </div>
-                                    <div class="ml-3">
-                                        <div class="text-sm font-medium text-gray-900">Alex Johnson</div>
-                                        <div class="text-xs text-gray-500">alex.johnson@example.com</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-900">#12344</div>
+                                        <div class="text-xs text-gray-500">1 item</div>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                Nov 14, 2023 • 03:45 PM
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-900">₱3,740.00</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-100 text-amber-800">
-                                    Shipped
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <div class="flex space-x-2">
-                                    <a href="/admin/orders/12343" class="text-blue-600 hover:text-blue-900" title="View">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                    <a href="/admin/orders/12343/edit" class="text-indigo-600 hover:text-indigo-900" title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <button class="text-amber-600 hover:text-amber-900" title="Print Invoice">
-                                        <i class="fas fa-print"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="h-8 w-8 flex-shrink-0 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600">
+                                            <i class="fas fa-user text-xs"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <div class="text-sm font-medium text-gray-900">Nyawk nyawk</div>
+                                            <div class="text-xs text-gray-500">nyawk@gmail.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    Nov 15, 2023 • 09:15 AM
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm font-medium text-gray-900">₱1,250.00</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                        Processing
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <div class="flex space-x-2">
+                                        <a href="/admin/orders/12344" class="text-blue-600 hover:text-blue-900" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="/admin/orders/12344/edit" class="text-indigo-600 hover:text-indigo-900" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <button class="text-amber-600 hover:text-amber-900" title="Print Invoice">
+                                            <i class="fas fa-print"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <input type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-900">#12343</div>
+                                        <div class="text-xs text-gray-500">2 items</div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="h-8 w-8 flex-shrink-0 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600">
+                                            <i class="fas fa-user text-xs"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <div class="text-sm font-medium text-gray-900">Alex Johnson</div>
+                                            <div class="text-xs text-gray-500">alex.johnson@example.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    Nov 14, 2023 • 03:45 PM
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm font-medium text-gray-900">₱3,740.00</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-100 text-amber-800">
+                                        Shipped
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <div class="flex space-x-2">
+                                        <a href="/admin/orders/12343" class="text-blue-600 hover:text-blue-900" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="/admin/orders/12343/edit" class="text-indigo-600 hover:text-indigo-900" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <button class="text-amber-600 hover:text-amber-900" title="Print Invoice">
+                                            <i class="fas fa-print"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
                     @endif
                 </tbody>
             </table>

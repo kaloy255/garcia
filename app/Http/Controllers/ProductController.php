@@ -87,11 +87,9 @@ class ProductController extends Controller
 
     public function find(int $id)
     {
-        if(Auth::guest()){
-            return redirect('/login');
-        }
+        $username = Auth::user()->fullname;
         $product = Product::find($id);
-        return view('products.item', compact('product'));
+        return view('products.item', compact('product', 'username'));
     }
 
     public function update(Request $request, Product $product)

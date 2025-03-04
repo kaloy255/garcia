@@ -35,27 +35,20 @@
                 @endguest
 
                 @auth
+                    @if(!Auth::user()->is_admin)
                     <div x-data="{ open: false }" class="relative">
-                        <a href="#" class="p-2 relative text-gray-700 hover:text-indigo-600 transition-colors" @click="open = !open">
-                            <i class="fa-solid fa-cart-shopping text-xl"></i>
-                            <span class="absolute -top-1 -right-1 bg-indigo-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                        <a href="{{ route('cart.index') }}" class="p-2 relative text-gray-700 hover:text-indigo-600 transition-colors">
+                            <i class="fa-solid fa-cart-shopping text-xl" id="cart-icon"></i>
+                            @php
+                                $cartCount = 0;
+                                foreach(session('cart', []) as $item) {
+                                    $cartCount += $item['quantity'];
+                                }
+                            @endphp
+                            <span id="cart-count" class="absolute -top-1 -right-1 bg-indigo-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">{{ $cartCount }}</span>
                         </a>
-                        
-                        <!-- Dropdown cart -->
-                        <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-72 bg-white rounded-md shadow-lg py-1 z-50" style="display: none;">
-                            <div class="px-4 py-3 text-gray-700 border-b">
-                                <p class="text-sm font-medium">Your Cart</p>
-                            </div>
-                            <div class="max-h-60 overflow-y-auto py-2">
-                                <p class="px-4 py-2 text-sm text-gray-500 text-center">Your cart is empty</p>
-                            </div>
-                            <div class="px-4 py-3 border-t">
-                                <a href="#" class="block w-full px-4 py-2 text-sm font-medium text-center text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition-colors">
-                                    Checkout
-                                </a>
-                            </div>
-                        </div>
                     </div>
+                    @endif
                     
                     @if(Auth::user()->is_admin)
                     <a href="/admin" class="hidden sm:inline-flex px-3 py-1.5 text-sm font-medium text-white bg-indigo-600 rounded-full hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors">
@@ -71,13 +64,16 @@
                         </button>
                         
                         <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50" style="display: none;">
+                            @if(!Auth::user()->is_admin)
+                                <a href="{{ route('orders.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <i class="fa-solid fa-box mr-2"></i>My Orders
+                                </a>
+                            @endif
                             @if(Auth::user()->is_admin)
                                 <a href="/admin" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                     <i class="fa-solid fa-gauge-high mr-2"></i>Admin Dashboard
                                 </a>
-                                <a href="{{ route('products.create') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    <i class="fa-solid fa-plus mr-2"></i>Add Product
-                                </a>
+                               
                             @endif
                             <a href="/logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                 <i class="fa-solid fa-arrow-right-from-bracket mr-2"></i>Log out

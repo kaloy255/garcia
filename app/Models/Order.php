@@ -11,17 +11,27 @@ class Order extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'user_id',
         'total_amount',
         'status',
-        'shipping_address',
+        'name',
+        'email',
+        'address',
+        'city',
+        'postal_code',
+        'phone',
         'payment_method',
-        'payment_status',
+        'payment_status'
     ];
 
     /**
-     * Get the user that owns the order.
+     * Get the user that placed the order.
      */
     public function user(): BelongsTo
     {
@@ -29,9 +39,9 @@ class Order extends Model
     }
 
     /**
-     * Get the order items for the order.
+     * Get the items for the order.
      */
-    public function orderItems(): HasMany
+    public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class);
     }
